@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Insulin Calculator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+    <h1 class="text-center">Insulin Calculator</h1>
+    <form action="/berechne_insulin" method="POST" class="mt-3">
+        <div class="mb-3">
+            <label for="patient_id" class="form-label">Patienten-ID:</label>
+            <input type="text" id="patient_id" name="patient_id" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="bloodglucose" class="form-label">Bloodglucose:</label>
+            <input type="number" id="bloodglucose" name="bloodglucose" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="carbohydrateexchange" class="form-label">Amount Carbohydrate Exchange:</label>
+            <input type="number" id="carbohydrateexchange" name="carbohydrateexchange" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Calculate & Save</button>
+    </form>
+    <hr>
+    <h2>Calculate Insulinamount</h2>
+    <p id="result"></p>
+
+    <script>
+        document.querySelector("form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const response = await fetch("/calculate_insulin", {
+                method: "POST",
+                body: formData
+            });
+            const data = await response.json();
+            console.log("API Antwort:", data);  // Debugging in der Konsole prüfen
+
+            document.getElementById("result").innerText = `Total Insulin: ${data.total_insulin} IU | Patient: ${data.patient_id} | Datetime: ${data.timestamp}`;
+
+        });
+    </script>
+</body>
+</html>

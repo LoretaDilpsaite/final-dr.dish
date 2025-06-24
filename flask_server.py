@@ -141,7 +141,7 @@ def index():
     return render_template("index.html", patient_id=PATIENT_ID)
 
 @app.route("/calculate_insulin", methods=["POST"])
-def route_berechne_insulin():
+def route_calculate_insulin():
     try:
         bloodglucose = float(request.form["bloodglucose"])
         carbohydrateexchange = float(request.form["carbohydrateexchange"])
